@@ -1,0 +1,461 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void showCategories()
+{
+    cout << "\n========== HERHUB CATEGORIES ==========\n";
+    cout << "1. Makeup\n";
+    cout << "2. Skincare\n";
+    cout << "3. Hair Care\n";
+    cout << "4. Body Care\n";
+    cout << "5. Perfumes\n";
+    cout << "6. Accessories\n";
+    cout << "7. Period Care\n";
+    cout << "8. Gifts\n";
+    cout << "========================================\n";
+}
+
+void showProducts(string productName[], string category[],
+                  double price[], int stock[], int productCount)
+{
+    cout << "\n============== PRODUCTS ==============\n";
+
+    for (int i = 0; i < productCount; i++)
+    {
+        cout << "\nID: " << i + 1;
+        cout << "\nName: " << productName[i];
+        cout << "\nCategory: " << category[i];
+        cout << "\nPrice: " << price[i] << " EGP";
+        cout << "\nStock: " << stock[i];
+        cout << "\n--------------------------------------";
+    }
+}
+
+void searchProducts(string productName[], string category[],
+                    double price[], int stock[], int productCount)
+{
+    string search;
+    bool found = false;
+
+    cin.ignore();
+
+    cout << "\nEnter product name or category: ";
+    getline(cin, search);
+
+    for (int i = 0; i < productCount; i++)
+    {
+        if (productName[i] == search || category[i] == search)
+        {
+            cout << "\nProduct Found!";
+            cout << "\nID: " << i + 1;
+            cout << "\nName: " << productName[i];
+            cout << "\nCategory: " << category[i];
+            cout << "\nPrice: " << price[i] << " EGP";
+            cout << "\nStock: " << stock[i] << endl;
+
+            found = true;
+        }
+    }
+
+    if (found == false)
+    {
+        cout << "\nProduct not found.\n";
+    }
+}
+
+void showCart(string productName[], double price[],
+              int quantity[], int productCount)
+{
+    double subtotal = 0;
+    bool empty = true;
+
+    cout << "\n============== YOUR CART ==============\n";
+
+    for (int i = 0; i < productCount; i++)
+    {
+        if (quantity[i] > 0)
+        {
+            double itemTotal = price[i] * quantity[i];
+
+            cout << "\nProduct: " << productName[i];
+            cout << "\nQuantity: " << quantity[i];
+            cout << "\nPrice: " << price[i] << " EGP";
+            cout << "\nTotal: " << itemTotal << " EGP";
+            cout << "\n--------------------------------------";
+
+            subtotal += itemTotal;
+            empty = false;
+        }
+    }
+
+    if (empty == true)
+    {
+        cout << "\nYour cart is empty.\n";
+    }
+    else
+    {
+        cout << "\nSubtotal: " << subtotal << " EGP\n";
+    }
+}
+
+int main()
+{
+    string customerName;
+    string phone;
+    string address;
+
+    cout << "========================================\n";
+    cout << "             HERHUB\n";
+    cout << "       EVERYTHING FOR HER\n";
+    cout << "========================================\n";
+
+    cout << "\nEnter your name: ";
+    getline(cin, customerName);
+
+    cout << "Enter your phone: ";
+    getline(cin, phone);
+
+    cout << "\nWelcome, " << customerName << "!\n";
+
+    const int productCount = 20;
+
+    string productName[productCount] =
+    {
+        "Lipstick",
+        "Mascara",
+        "Foundation",
+        "Face Wash",
+        "Moisturizer",
+        "Sunscreen",
+        "Hair Mask",
+        "Shampoo",
+        "Body Lotion",
+        "Shower Gel",
+        "Body Mist",
+        "Perfume",
+        "Hand Bag",
+        "Hair Clips",
+        "Necklace",
+        "Sanitary Pads",
+        "Self Care Box",
+        "Beauty Box",
+        "Gift Box",
+        "Hair Brush"
+    };
+
+    string category[productCount] =
+    {
+        "Makeup",
+        "Makeup",
+        "Makeup",
+        "Skincare",
+        "Skincare",
+        "Skincare",
+        "Hair Care",
+        "Hair Care",
+        "Body Care",
+        "Body Care",
+        "Perfumes",
+        "Perfumes",
+        "Accessories",
+        "Accessories",
+        "Accessories",
+        "Period Care",
+        "Gifts",
+        "Gifts",
+        "Gifts",
+        "Hair Care"
+    };
+
+    double price[productCount] =
+    {
+        250, 300, 450, 180, 250,
+        350, 280, 220, 200, 180,
+        300, 650, 500, 120, 350,
+        100, 600, 750, 900, 150
+    };
+
+    int stock[productCount] =
+    {
+        20, 15, 10, 25, 20,
+        12, 15, 30, 25, 30,
+        20, 10, 8, 25, 12,
+        40, 10, 8, 5, 20
+    };
+
+    int quantity[productCount] = {0};
+
+    int choice;
+
+    do
+    {
+        cout << "\n\n============== HERHUB MENU ==============\n";
+        cout << "1. Browse Categories\n";
+        cout << "2. View All Products\n";
+        cout << "3. Search Products\n";
+        cout << "4. Add Product To Cart\n";
+        cout << "5. View Cart\n";
+        cout << "6. Remove Product From Cart\n";
+        cout << "7. Checkout\n";
+        cout << "8. Low Stock Report\n";
+        cout << "9. Store Statistics\n";
+        cout << "10. Exit\n";
+        cout << "==========================================\n";
+
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            showCategories();
+        }
+
+        else if (choice == 2)
+        {
+            showProducts(productName, category, price,
+                         stock, productCount);
+        }
+
+        else if (choice == 3)
+        {
+            searchProducts(productName, category, price,
+                           stock, productCount);
+        }
+
+        else if (choice == 4)
+        {
+            int productID;
+            int amount;
+
+            showProducts(productName, category, price,
+                         stock, productCount);
+
+            cout << "\nEnter Product ID: ";
+            cin >> productID;
+
+            if (productID < 1 || productID > productCount)
+            {
+                cout << "\nInvalid Product ID!\n";
+            }
+            else
+            {
+                cout << "Enter quantity: ";
+                cin >> amount;
+
+                if (amount <= 0)
+                {
+                    cout << "\nInvalid quantity!\n";
+                }
+                else if (amount > stock[productID - 1])
+                {
+                    cout << "\nNot enough stock!\n";
+                }
+                else
+                {
+                    quantity[productID - 1] += amount;
+
+                    cout << "\nProduct added to cart successfully!\n";
+                }
+            }
+        }
+
+        else if (choice == 5)
+        {
+            showCart(productName, price, quantity, productCount);
+        }
+
+        else if (choice == 6)
+        {
+            int productID;
+            int amount;
+
+            cout << "\nEnter Product ID to remove: ";
+            cin >> productID;
+
+            if (productID < 1 || productID > productCount)
+            {
+                cout << "\nInvalid Product ID!\n";
+            }
+            else if (quantity[productID - 1] == 0)
+            {
+                cout << "\nThis product is not in your cart.\n";
+            }
+            else
+            {
+                cout << "Enter quantity to remove: ";
+                cin >> amount;
+
+                if (amount >= quantity[productID - 1])
+                {
+                    quantity[productID - 1] = 0;
+                }
+                else
+                {
+                    quantity[productID - 1] -= amount;
+                }
+
+                cout << "\nProduct removed from cart.\n";
+            }
+        }
+
+        else if (choice == 7)
+        {
+            double subtotal = 0;
+            double discount = 0;
+            double delivery = 0;
+            double total;
+
+            bool empty = true;
+
+            for (int i = 0; i < productCount; i++)
+            {
+                if (quantity[i] > 0)
+                {
+                    subtotal += price[i] * quantity[i];
+                    empty = false;
+                }
+            }
+
+            if (empty == true)
+            {
+                cout << "\nYour cart is empty!\n";
+            }
+            else
+            {
+                cin.ignore();
+
+                cout << "\nEnter delivery address: ";
+                getline(cin, address);
+
+                if (subtotal >= 1000)
+                {
+                    discount = subtotal * 0.15;
+                }
+                else if (subtotal >= 500)
+                {
+                    discount = subtotal * 0.10;
+                }
+
+                if (subtotal >= 1000)
+                {
+                    delivery = 0;
+                }
+                else
+                {
+                    delivery = 50;
+                }
+
+                total = subtotal - discount + delivery;
+
+                cout << "\n========== ORDER SUMMARY ==========\n";
+                cout << "Customer: " << customerName << endl;
+                cout << "Phone: " << phone << endl;
+                cout << "Address: " << address << endl;
+
+                cout << "\nSubtotal: " << subtotal << " EGP";
+                cout << "\nDiscount: " << discount << " EGP";
+                cout << "\nDelivery: " << delivery << " EGP";
+                cout << "\nTotal: " << total << " EGP";
+
+                int paymentChoice;
+                string payment;
+
+                cout << "\n\nPayment Method:\n";
+                cout << "1. Cash\n";
+                cout << "2. Card\n";
+                cout << "3. Wallet\n";
+                cout << "Choose: ";
+                cin >> paymentChoice;
+
+                if (paymentChoice == 1)
+                {
+                    payment = "Cash";
+                }
+                else if (paymentChoice == 2)
+                {
+                    payment = "Card";
+                }
+                else if (paymentChoice == 3)
+                {
+                    payment = "Wallet";
+                }
+                else
+                {
+                    cout << "\nInvalid payment method!\n";
+                    continue;
+                }
+
+                for (int i = 0; i < productCount; i++)
+                {
+                    if (quantity[i] > 0)
+                    {
+                        stock[i] -= quantity[i];
+                        quantity[i] = 0;
+                    }
+                }
+
+                cout << "\nPayment: " << payment;
+                cout << "\nOrder Status: Confirmed";
+                cout << "\nOrder ID: 10001";
+                cout << "\n\nOrder placed successfully!\n";
+            }
+        }
+
+        else if (choice == 8)
+        {
+            cout << "\n========== LOW STOCK REPORT ==========\n";
+
+            for (int i = 0; i < productCount; i++)
+            {
+                if (stock[i] <= 10)
+                {
+                    cout << "\nID: " << i + 1;
+                    cout << "\nProduct: " << productName[i];
+                    cout << "\nStock: " << stock[i];
+                    cout << "\n--------------------------------------";
+                }
+            }
+        }
+
+        else if (choice == 9)
+        {
+            int totalProducts = 0;
+            int lowStockProducts = 0;
+
+            for (int i = 0; i < productCount; i++)
+            {
+                totalProducts += stock[i];
+
+                if (stock[i] <= 10)
+                {
+                    lowStockProducts++;
+                }
+            }
+
+            cout << "\n========== STORE STATISTICS ==========\n";
+            cout << "Different Products: "
+                 << productCount << endl;
+
+            cout << "Total Items In Stock: "
+                 << totalProducts << endl;
+
+            cout << "Low Stock Products: "
+                 << lowStockProducts << endl;
+        }
+
+        else if (choice == 10)
+        {
+            cout << "\nThank you for using HerHub!\n";
+            cout << "Everything she needs, all in one place.\n";
+        }
+
+        else
+        {
+            cout << "\nInvalid choice. Try again.\n";
+        }
+
+    } while (choice != 10);
+
+    return 0;
+}
